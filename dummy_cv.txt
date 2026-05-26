@@ -1,0 +1,34 @@
+Ahmed Shamel
+Email: ahmedshamel1@yahoo.com
+Location: London, UK
+
+SUMMARY
+Software engineer with 6 years of experience building backend systems and distributed services.
+Experienced in Python, C#, .NET, and cloud platforms (Azure, AWS).
+Recently exploring AI agent frameworks: LangChain, LangGraph, CrewAI, AutoGen, MCP, A2A.
+
+EXPERIENCE
+
+Senior Software Engineer — Acme Corp (2021–present)
+- Designed and built microservices handling 50k requests/day using .NET 6 and Azure Service Bus
+- Led migration from monolith to event-driven architecture, reducing deployment time by 40%
+- Integrated OpenAI and Azure Cognitive Services into internal tooling
+- Mentored 3 junior engineers; ran weekly code review sessions
+
+Software Engineer — TechStart Ltd (2018–2021)
+- Built REST APIs in Python (FastAPI) consumed by mobile and web clients
+- Designed PostgreSQL schemas and wrote complex queries for analytics dashboards
+- Implemented CI/CD pipelines with GitHub Actions and Docker
+
+SKILLS
+Languages: Python, C#, TypeScript, SQL
+Frameworks: .NET, FastAPI, LangChain, LangGraph, CrewAI
+Cloud: Azure (App Service, Service Bus, Cosmos DB), AWS (Lambda, SQS)
+Tools: Docker, Kubernetes, GitHub Actions, Terraform
+
+EDUCATION
+BSc Computer Science — University of London (2014–2018)
+
+PROJECTS
+- A2A Learning Project: Multi-agent job application assistant using LangGraph, CrewAI, AutoGen, and A2A protocol
+- MCP .NET Integration: Built MCP-compatible tool server in C# exposing internal APIs to LLM agents
