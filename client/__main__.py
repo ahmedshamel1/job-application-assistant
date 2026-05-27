@@ -163,13 +163,12 @@ async def send_and_collect(agent_url: str, text: str, http: httpx.AsyncClient) -
     Send a text message to one A2A agent and collect all artifact outputs.
     Returns {artifact_name: text_content}.
     """
-    client = create_client(
+    client = await create_client(
         agent=agent_url,
         client_config=ClientConfig(
             streaming=False,
             httpx_client=http,
         ),
-        resolver_http_kwargs={"verify": False},
     )
 
     request = SendMessageRequest(
@@ -183,8 +182,8 @@ async def send_and_collect(agent_url: str, text: str, http: httpx.AsyncClient) -
 
     artifacts: dict[str, str] = {}
 
-    async for event in await client.send_message(request):
-        which = event.WhichOneof("event")
+    async for event in client.send_message(request):
+        which = event.WhichOneof("payload")
 
         if which == "artifact_update":
             art = event.artifact_update.artifact

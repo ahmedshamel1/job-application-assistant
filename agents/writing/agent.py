@@ -39,7 +39,7 @@ def _make_llm() -> LLM:
     )
 
 
-def run_writing(cv: str, job_description: str, research_report: str) -> tuple[str, str]:
+async def run_writing(cv: str, job_description: str, research_report: str) -> tuple[str, str]:
     """
     Entry point called by the A2A executor.
 
@@ -146,7 +146,7 @@ Instructions:
         verbose=True,
     )
 
-    result = crew.kickoff()
+    result = await crew.kickoff_async()
 
     # result.tasks_output is a list of TaskOutput objects, one per task.
     # .raw gives the plain string output.

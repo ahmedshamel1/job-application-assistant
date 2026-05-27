@@ -23,12 +23,13 @@ from a2a.server.agent_execution import AgentExecutor, RequestContext
 from a2a.server.events.event_queue_v2 import EventQueue
 from a2a.server.request_handlers.default_request_handler_v2 import DefaultRequestHandlerV2
 from a2a.server.routes.agent_card_routes import create_agent_card_routes
-from a2a.server.routes.rest_routes import create_rest_routes
+from a2a.server.routes.jsonrpc_routes import create_jsonrpc_routes
 from a2a.server.tasks.inmemory_task_store import InMemoryTaskStore
 from a2a.server.tasks.task_updater import TaskUpdater
 from a2a.types.a2a_pb2 import (
     AgentCapabilities,
     AgentCard,
+    AgentInterface,
     AgentSkill,
     Part,
     Task,
@@ -80,7 +81,7 @@ class WritingAgentExecutor(AgentExecutor):
         await updater.start_work()
 
         cv, jd, report = _parse_input(user_input)
-        tailored_cv, cover_letter = run_writing(cv, jd, report)
+        tailored_cv, cover_letter = await run_writing(cv, jd, report)
 
         await updater.add_artifact(
             parts=[Part(text=tailored_cv)],
@@ -117,10 +118,6 @@ def main(host: str, port: int):
         ],
     )
 
-    from a2a.types.a2a_pb2 import AgentCard as _AgentCard
-    iface_descriptor = _AgentCard.DESCRIPTOR.fields_by_name["supported_interfaces"].message_type
-    AgentInterface = iface_descriptor._concrete_class
-
     agent_card = AgentCard(
         name="Writing Agent",
         description=(
@@ -133,7 +130,7 @@ def main(host: str, port: int):
         capabilities=AgentCapabilities(streaming=False),
         skills=[skill],
         supported_interfaces=[
-            AgentInterface(url=f"http://{host}:{port}/")
+            AgentInterface(url=f"http://{host}:{port}/", protocol_binding="JSONRPC")
         ],
     )
 
@@ -146,7 +143,7 @@ def main(host: str, port: int):
 
     routes = [
         *create_agent_card_routes(agent_card),
-        *create_rest_routes(handler),
+        *create_jsonrpc_routes(handler, rpc_url="/"),
     ]
 
     app = Starlette(routes=routes)
