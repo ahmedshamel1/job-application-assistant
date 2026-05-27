@@ -22,6 +22,7 @@ The key difference from CrewAI:
 import asyncio
 import os
 
+import httpx
 from autogen_agentchat.agents import AssistantAgent
 from autogen_agentchat.conditions import MaxMessageTermination
 from autogen_agentchat.messages import TextMessage
@@ -44,6 +45,7 @@ def _make_client() -> OpenAIChatCompletionClient:
         model=MODEL,
         api_key=os.getenv("OPENROUTER_API_KEY"),
         base_url="https://openrouter.ai/api/v1",
+        http_client=httpx.AsyncClient(verify=False),
         model_info={
             "vision": False,
             "function_calling": False,
